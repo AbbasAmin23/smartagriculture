@@ -1,0 +1,365 @@
+{
+  "entities": {
+    "MarketData": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "MarketData",
+      "type": "object",
+      "description": "Represents market data for a specific vegetable or fruit.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the market data entry."
+        },
+        "vegetableName": {
+          "type": "string",
+          "description": "Name of the vegetable or fruit."
+        },
+        "marketName": {
+          "type": "string",
+          "description": "Name of the market where the data was collected."
+        },
+        "pricePerKg": {
+          "type": "number",
+          "description": "Price per kilogram of the vegetable/fruit in INR."
+        },
+        "date": {
+          "type": "string",
+          "description": "Date when the market data was recorded.",
+          "format": "date-time"
+        },
+        "adminId": {
+          "type": "string",
+          "description": "Reference to the Admin who uploaded this data. (Relationship: Admin 1:N MarketData)"
+        }
+      },
+      "required": [
+        "id",
+        "vegetableName",
+        "marketName",
+        "pricePerKg",
+        "date",
+        "adminId"
+      ]
+    },
+    "WeatherUpdate": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "WeatherUpdate",
+      "type": "object",
+      "description": "Represents weather information for a specific region.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the weather update."
+        },
+        "region": {
+          "type": "string",
+          "description": "The geographical region for which the weather data is relevant."
+        },
+        "temperatureCelsius": {
+          "type": "number",
+          "description": "Temperature in Celsius."
+        },
+        "humidity": {
+          "type": "number",
+          "description": "Humidity percentage."
+        },
+        "condition": {
+          "type": "string",
+          "description": "General weather condition (e.g., Sunny, Cloudy, Rainy)."
+        },
+        "date": {
+          "type": "string",
+          "description": "Date and time of the weather update.",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "region",
+        "temperatureCelsius",
+        "humidity",
+        "condition",
+        "date"
+      ]
+    },
+    "Farmer": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Farmer",
+      "type": "object",
+      "description": "Represents a farmer user.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the farmer."
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the farmer."
+        },
+        "contactNumber": {
+          "type": "string",
+          "description": "Contact number of the farmer."
+        },
+        "location": {
+          "type": "string",
+          "description": "The location of the farmer's farm."
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "contactNumber",
+        "location"
+      ]
+    },
+    "Admin": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Admin",
+      "type": "object",
+      "description": "Represents an admin user.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the admin."
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the administrator."
+        },
+        "email": {
+          "type": "string",
+          "description": "Email of the administrator.",
+          "format": "email"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "email"
+      ]
+    },
+    "ForumPost": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "ForumPost",
+      "type": "object",
+      "description": "Represents a post in the community forum.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the forum post."
+        },
+        "farmerId": {
+          "type": "string",
+          "description": "Reference to the Farmer who created the post. (Relationship: Farmer 1:N ForumPost)"
+        },
+        "title": {
+          "type": "string",
+          "description": "Title of the forum post."
+        },
+        "content": {
+          "type": "string",
+          "description": "Content of the forum post."
+        },
+        "dateCreated": {
+          "type": "string",
+          "description": "Date and time when the post was created.",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "farmerId",
+        "title",
+        "content",
+        "dateCreated"
+      ]
+    },
+    "ForumComment": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "ForumComment",
+      "type": "object",
+      "description": "Represents a comment on a forum post.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the forum comment."
+        },
+        "postId": {
+          "type": "string",
+          "description": "Reference to the ForumPost this comment belongs to. (Relationship: ForumPost 1:N ForumComment)"
+        },
+        "farmerId": {
+          "type": "string",
+          "description": "Reference to the Farmer who created the comment. (Relationship: Farmer 1:N ForumComment)"
+        },
+        "content": {
+          "type": "string",
+          "description": "Content of the comment."
+        },
+        "dateCreated": {
+          "type": "string",
+          "description": "Date and time when the comment was created.",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "postId",
+        "farmerId",
+        "content",
+        "dateCreated"
+      ]
+    }
+  },
+  "auth": {
+    "providers": [
+      "password",
+      "anonymous"
+    ]
+  },
+  "firestore": {
+    "structure": [
+      {
+        "path": "/admins/{adminId}",
+        "definition": {
+          "entityName": "Admin",
+          "schema": {
+            "$ref": "#/backend/entities/Admin"
+          },
+          "description": "Stores admin user profiles. Only the admin can access their own profile.",
+          "params": [
+            {
+              "name": "adminId",
+              "description": "The unique identifier of the admin user."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/farmers/{farmerId}",
+        "definition": {
+          "entityName": "Farmer",
+          "schema": {
+            "$ref": "#/backend/entities/Farmer"
+          },
+          "description": "Stores farmer user profiles. Only the farmer can access their own profile.",
+          "params": [
+            {
+              "name": "farmerId",
+              "description": "The unique identifier of the farmer user."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/marketData/{marketDataId}",
+        "definition": {
+          "entityName": "MarketData",
+          "schema": {
+            "$ref": "#/backend/entities/MarketData"
+          },
+          "description": "Stores market data entries. Includes 'adminId' for authorization independence.",
+          "params": [
+            {
+              "name": "marketDataId",
+              "description": "The unique identifier of the market data entry."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/weatherUpdates/{weatherUpdateId}",
+        "definition": {
+          "entityName": "WeatherUpdate",
+          "schema": {
+            "$ref": "#/backend/entities/WeatherUpdate"
+          },
+          "description": "Stores weather updates. Publicly readable.",
+          "params": [
+            {
+              "name": "weatherUpdateId",
+              "description": "The unique identifier of the weather update."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/farmers/{farmerId}/forumPosts/{postId}",
+        "definition": {
+          "entityName": "ForumPost",
+          "schema": {
+            "$ref": "#/backend/entities/ForumPost"
+          },
+          "description": "Stores forum posts created by farmers. Hierarchical path ensures clear ownership.",
+          "params": [
+            {
+              "name": "farmerId",
+              "description": "The unique identifier of the farmer who created the post."
+            },
+            {
+              "name": "postId",
+              "description": "The unique identifier of the forum post."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/farmers/{farmerId}/forumPosts/{postId}/forumComments/{commentId}",
+        "definition": {
+          "entityName": "ForumComment",
+          "schema": {
+            "$ref": "#/backend/entities/ForumComment"
+          },
+          "description": "Stores forum comments under specific forum posts. Hierarchical path maintains clear ownership.",
+          "params": [
+            {
+              "name": "farmerId",
+              "description": "The unique identifier of the farmer who created the post."
+            },
+            {
+              "name": "postId",
+              "description": "The unique identifier of the forum post."
+            },
+            {
+              "name": "commentId",
+              "description": "The unique identifier of the forum comment."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/forumPosts/{postId}",
+        "definition": {
+          "entityName": "ForumPost",
+          "schema": {
+            "$ref": "#/backend/entities/ForumPost"
+          },
+          "description": "Top level Forum Posts. To retrieve all the posts easily.",
+          "params": [
+            {
+              "name": "postId",
+              "description": "The unique identifier of the forum post."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/forumComments/{commentId}",
+        "definition": {
+          "entityName": "ForumComment",
+          "schema": {
+            "$ref": "#/backend/entities/ForumComment"
+          },
+          "description": "Top level Forum Comments. To retrieve all the comments easily.",
+          "params": [
+            {
+              "name": "commentId",
+              "description": "The unique identifier of the forum comment."
+            }
+          ]
+        }
+      }
+    ],
+    "reasoning": "The Firestore data structure is designed to support the Kissan Sathi application, focusing on farmers and admins, with features for market data, weather updates, a community forum, and AI-based advice. The structure prioritizes authorization independence and ease of debugging. Here's a detailed breakdown:\n\n*   **Authorization Independence:** The design avoids hierarchical authorization dependencies (`get()`). The `MarketData` collection includes the `adminId` to directly associate market data with an admin, enabling straightforward security rules based on the `request.auth.uid` without needing to traverse up to the admin document.\n\n*   **Structural Segregation:** Data with different access requirements are stored in separate collections. For example, `admins` and `farmers` have their own top-level collections, isolating security concerns.\n\n*   **Access Modeling:**\n    *   **Private Data:** The `/admins/{adminId}` and `/farmers/{farmerId}` collections provide path-based ownership. An admin can only manage their own admin profile, and a farmer can only manage their own farmer profile.\n    *   **Hierarchical Paths for User-Owned Data:** Forum posts and comments are organized under `/farmers/{farmerId}/forumPosts/{postId}` and `/farmers/{farmerId}/forumPosts/{postId}/forumComments/{commentId}`, establishing a clear ownership hierarchy. This makes securing access to these entities straightforward.\n    *   **Collaborative Data:** This is not explicitly modeled in this design, as collaborative features are focused on the forum, which is owned by the user.\n\n*   **QAPs (Rules are not Filters):** The structure is designed to enable secure `list` operations. For example, listing all market data is secured, and admins can create Market Data.\n\n*   **Invariants:** The structure supports the integrity of ownership, timestamps, and denormalized data. The `adminId` field in the `MarketData` collection ensures that each market data entry is associated with a specific admin, facilitating data integrity.\n\n*   **Admin Data:** Admin profiles are stored in the `/admins/{adminId}` collection. Only the authenticated admin can access and modify their profile.\n\n*   **Farmer Data:** Farmer profiles are stored in the `/farmers/{farmerId}` collection. Only the authenticated farmer can access and modify their profile.\n\n*   **Market Data:** Market data entries are stored in the `/marketData/{marketDataId}` collection, associated with an `adminId` to track ownership. Admins can create, update, and delete market data.\n\n*   **Weather Updates:** Weather updates are stored in the `/weatherUpdates/{weatherUpdateId}` collection and are publicly readable. Admin management is not needed in this iteration.\n\n*   **Forum Posts:** Each forum post is stored under a farmer's document in the `/farmers/{farmerId}/forumPosts/{postId}` collection, ensuring clear ownership. This enables farmers to create, read, update, and delete their own forum posts. The top level `/forumPosts` collections is created to retrieve all the posts easily.\n\n*   **Forum Comments:** Forum comments are stored under a specific forum post in the `/farmers/{farmerId}/forumPosts/{postId}/forumComments/{commentId}` collection, maintaining a hierarchical structure. This allows farmers to create, read, update, and delete their own comments on specific posts. The top level `/forumComments` collections is created to retrieve all the comments easily."
+  }
+}

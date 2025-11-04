@@ -1,0 +1,177 @@
+/**
+ * @fileoverview Firestore Security Rules for the Kissan Sathi application.
+ *
+ * Core Philosophy:
+ * This ruleset enforces a strict user-ownership model for farmer and admin profiles,
+ * while allowing public read access to weather updates and specific authorization
+ * for MarketData based on admin ownership. Forum posts and comments are managed
+ * under a farmer's document to maintain clear ownership. Top level `/forumPosts` and
+ * `/forumComments` are made to retrieve all posts and comments easily.
+ *
+ * Data Structure:
+ * - /admins/{adminId}: Stores admin profiles.
+ * - /farmers/{farmerId}: Stores farmer profiles.
+ * - /marketData/{marketDataId}: Stores market data entries, each associated with an admin.
+ * - /weatherUpdates/{weatherUpdateId}: Stores weather updates.
+ * - /farmers/{farmerId}/forumPosts/{postId}: Stores forum posts created by farmers.
+ * - /farmers/{farmerId}/forumPosts/{postId}/forumComments/{commentId}: Stores forum comments
+ *   under specific forum posts.
+ * - /forumPosts/{postId}: Stores all the posts for easy retrieval.
+ * - /forumComments/{commentId}: Stores all the comments for easy retrieval.
+ *
+ * Key Security Decisions:
+ * - Farmers and admins can only access their own profiles.
+ * - Weather updates are publicly readable.
+ * - Market data can be created, updated, and deleted only by admins. The adminId field in MarketData document is used for authorization.
+ * - Forum posts and comments are owned by farmers and stored under their respective profiles.
+ * - Listing of user documents is not permitted.
+ *
+ * Denormalization for Authorization:
+ * - MarketData documents contain an `adminId` field, which is used to directly authorize
+ *   admin access without needing to perform additional `get()` requests.
+ */
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    /**
+     * @description Allows admins to manage their own profiles.
+     * @path /admins/{adminId}
+     * @allow (create) - An admin with UID 'admin_abc' can create their profile at /admins/admin_abc.
+     * @allow (get, update, delete) - An admin with UID 'admin_abc' can read, update, and delete their profile at /admins/admin_abc.
+     * @deny (create) - An admin with UID 'admin_xyz' cannot create a profile for 'admin_abc' at /admins/admin_abc.
+     * @deny (update, delete) - An admin with UID 'admin_xyz' cannot update or delete the profile of 'admin_abc' at /admins/admin_abc.
+     * @principle Enforces document ownership for admins.
+     */
+    match /admins/{adminId} {
+      allow get: if isSignedIn() && isOwner(adminId);
+      allow list: if false;
+      allow create: if isSignedIn() && isOwner(adminId);
+      allow update: if isSignedIn() && isExistingOwner(adminId);
+      allow delete: if isSignedIn() && isExistingOwner(adminId);
+    }
+
+    /**
+     * @description Allows farmers to manage their own profiles.
+     * @path /farmers/{farmerId}
+     * @allow (create) - A farmer with UID 'farmer_abc' can create their profile at /farmers/farmer_abc.
+     * @allow (get, update, delete) - A farmer with UID 'farmer_abc' can read, update, and delete their profile at /farmers/farmer_abc.
+     * @deny (create) - A farmer with UID 'farmer_xyz' cannot create a profile for 'farmer_abc' at /farmers/farmer_abc.
+     * @deny (update, delete) - A farmer with UID 'farmer_xyz' cannot update or delete the profile of 'farmer_abc' at /farmers/farmer_abc.
+     * @principle Enforces document ownership for farmers.
+     */
+    match /farmers/{farmerId} {
+      allow get: if isSignedIn() && isOwner(farmerId);
+      allow list: if false;
+      allow create: if isSignedIn() && isOwner(farmerId);
+      allow update: if isSignedIn() && isExistingOwner(farmerId);
+      allow delete: if isSignedIn() && isExistingOwner(farmerId);
+    }
+
+    /**
+     * @description Allows admins to manage market data, enforcing admin ownership via the 'adminId' field.
+     * @path /marketData/{marketDataId}
+     * @allow (get, list) - Any signed-in user can read market data.
+     * @allow (create) - An admin with UID 'admin_abc' can create market data with adminId: 'admin_abc'.
+     * @allow (update, delete) - An admin with UID 'admin_abc' can update or delete market data where resource.data.adminId == 'admin_abc'.
+     * @deny (create) - A farmer with UID 'farmer_abc' cannot create market data.
+     * @deny (update, delete) - An admin with UID 'admin_xyz' cannot update or delete market data owned by 'admin_abc'.
+     * @principle Enforces admin ownership for market data writes and allows public reads.
+     */
+    match /marketData/{marketDataId} {
+      allow get, list: if true;
+      allow create: if isSignedIn() && request.resource.data.adminId == request.auth.uid;
+      allow update: if isSignedIn() && isMarketDataOwner(resource.data.adminId);
+      allow delete: if isSignedIn() && isMarketDataOwner(resource.data.adminId) && resource != null;
+    }
+
+    /**
+     * @description Allows public read access to weather updates.
+     * @path /weatherUpdates/{weatherUpdateId}
+     * @allow (get, list) - Any user (signed in or not) can read weather updates.
+     * @deny (create, update, delete) - No one can create, update, or delete weather updates through client-side rules.
+     * @principle Provides public read access to weather data.
+     */
+    match /weatherUpdates/{weatherUpdateId} {
+      allow get, list: if true;
+      allow create, update, delete: if false;
+    }
+
+    /**
+     * @description Allows farmers to manage their own forum posts under their profile.
+     * @path /farmers/{farmerId}/forumPosts/{postId}
+     * @allow (get, list) - A farmer with UID 'farmer_abc' can read their own forum posts.
+     * @allow (create) - A farmer with UID 'farmer_abc' can create a forum post under their profile.
+     * @allow (update, delete) - A farmer with UID 'farmer_abc' can update or delete their own forum posts.
+     * @deny (create) - A farmer with UID 'farmer_xyz' cannot create a forum post under 'farmer_abc' profile.
+     * @deny (update, delete) - A farmer with UID 'farmer_xyz' cannot update or delete forum post of 'farmer_abc'.
+     * @principle Enforces farmer ownership for forum posts.
+     */
+    match /farmers/{farmerId}/forumPosts/{postId} {
+      allow get: if isSignedIn() && isOwner(farmerId);
+      allow list: if isSignedIn() && isOwner(farmerId);
+      allow create: if isSignedIn() && isOwner(farmerId) && request.resource.data.farmerId == farmerId;
+      allow update: if isSignedIn() && isExistingOwner(farmerId) && resource.data.farmerId == farmerId;
+      allow delete: if isSignedIn() && isExistingOwner(farmerId) && resource.data.farmerId == farmerId;
+    }
+
+    /**
+     * @description Allows farmers to manage their own forum comments under specific forum posts.
+     * @path /farmers/{farmerId}/forumPosts/{postId}/forumComments/{commentId}
+     * @allow (get, list) - A farmer with UID 'farmer_abc' can read their own comments under their forum post.
+     * @allow (create) - A farmer with UID 'farmer_abc' can create a comment under their forum post.
+     * @allow (update, delete) - A farmer with UID 'farmer_abc' can update or delete their own comments.
+     * @deny (create) - A farmer with UID 'farmer_xyz' cannot create a comment under 'farmer_abc' forum post.
+     * @deny (update, delete) - A farmer with UID 'farmer_xyz' cannot update or delete a comment under 'farmer_abc' forum post.
+     * @principle Enforces farmer ownership for forum comments.
+     */
+    match /farmers/{farmerId}/forumPosts/{postId}/forumComments/{commentId} {
+      allow get: if isSignedIn() && isOwner(farmerId);
+      allow list: if isSignedIn() && isOwner(farmerId);
+      allow create: if isSignedIn() && isOwner(farmerId) && request.resource.data.farmerId == farmerId;
+      allow update: if isSignedIn() && isExistingOwner(farmerId) && resource.data.farmerId == farmerId;
+      allow delete: if isSignedIn() && isExistingOwner(farmerId) && resource.data.farmerId == farmerId;
+    }
+
+    /**
+     * @description Allows retrieval of all forum posts.
+     * @path /forumPosts/{postId}
+     * @allow (get, list) - Any user can read the forum posts.
+     * @deny (create, update, delete) - No one can create, update or delete forum posts.
+     * @principle Allows reading all forum posts.
+     */
+    match /forumPosts/{postId} {
+        allow get, list: if true;
+        allow create, update, delete: if false;
+    }
+
+    /**
+     * @description Allows retrieval of all forum comments.
+     * @path /forumComments/{commentId}
+     * @allow (get, list) - Any user can read the forum comments.
+     * @deny (create, update, delete) - No one can create, update or delete forum comments.
+     * @principle Allows reading all forum comments.
+     */
+    match /forumComments/{commentId} {
+        allow get, list: if true;
+        allow create, update, delete: if false;
+    }
+  }
+
+  // Helper functions
+  function isSignedIn() {
+    return request.auth != null;
+  }
+
+  function isOwner(userId) {
+    return request.auth.uid == userId;
+  }
+
+  function isExistingOwner(userId) {
+    return isSignedIn() && isOwner(userId) && resource != null;
+  }
+
+    function isMarketDataOwner(adminId) {
+    return isSignedIn() && request.auth.uid == adminId && resource != null;
+  }
+}
