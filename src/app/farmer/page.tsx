@@ -24,7 +24,7 @@ export default function FarmerPage() {
                 <CardDescription>
                   Here's your farm's overview for today. Get smart advice to optimize your yield.
                 </CardDescription>
-              </Header>
+              </CardHeader>
               <CardContent>
                 <p className="text-sm text-muted-foreground">Your smart farming companion.</p>
               </CardContent>
