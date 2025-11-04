@@ -95,6 +95,7 @@ export function AdminMarketManagement() {
   const handleUpdate = () => {
     if (!firestore || !currentItem || !newItemName.trim() || !newItemPrice.trim()) return;
     const price = parseFloat(newItemPrice);
+    if (isNaN(price)) return;
     const itemDoc = doc(firestore, 'marketData', currentItem.id);
     updateDocumentNonBlocking(itemDoc, {
       vegetableName: newItemName,
@@ -111,6 +112,7 @@ export function AdminMarketManagement() {
   const handleAdd = () => {
     if (!firestore || !newItemName.trim() || !newItemPrice.trim()) return;
     const price = parseFloat(newItemPrice);
+    if (isNaN(price)) return;
     const marketCollection = collection(firestore, 'marketData');
     addDocumentNonBlocking(marketCollection, {
       vegetableName: newItemName,
@@ -255,5 +257,3 @@ export function AdminMarketManagement() {
     </Card>
   );
 }
-
-    
