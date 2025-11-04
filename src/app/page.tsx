@@ -33,7 +33,7 @@ export default function LandingPage() {
         </Link>
         <nav className="ml-auto flex gap-4 sm:gap-6 items-center">
           <div className="w-[120px]">
-            <Select value={language} onValueChange={(value) => setLanguage(value as 'en' | 'ur' | 'pa')}>
+            <Select value={language} onValueChange={(value) => setLanguage(value as 'en' | 'ur')}>
               <SelectTrigger aria-label="Select language" className="h-9">
                 <Languages className="w-4 h-4 mr-2" />
                 <SelectValue placeholder="Language" />
@@ -41,7 +41,6 @@ export default function LandingPage() {
               <SelectContent>
                 <SelectItem value="en">English</SelectItem>
                 <SelectItem value="ur">Urdu</SelectItem>
-                <SelectItem value="pa">Punjabi</SelectItem>
               </SelectContent>
             </Select>
           </div>

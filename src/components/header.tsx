@@ -59,7 +59,7 @@ export function Header() {
         />
       </div>
       <div className="w-[120px]">
-        <Select value={language} onValueChange={(value) => setLanguage(value as 'en' | 'ur' | 'pa')}>
+        <Select value={language} onValueChange={(value) => setLanguage(value as 'en' | 'ur')}>
           <SelectTrigger aria-label="Select language">
             <Languages className="w-4 h-4 mr-2" />
             <SelectValue placeholder="Language" />
@@ -67,7 +67,6 @@ export function Header() {
           <SelectContent>
             <SelectItem value="en">English</SelectItem>
             <SelectItem value="ur">Urdu</SelectItem>
-            <SelectItem value="pa">Punjabi</SelectItem>
           </SelectContent>
         </Select>
       </div>
