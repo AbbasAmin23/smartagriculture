@@ -1,3 +1,5 @@
+'use client';
+
 import { DashboardLayout } from '@/components/dashboard-layout';
 import { Header } from '@/components/header';
 import { WeatherCard } from '@/components/weather-card';
@@ -22,7 +24,7 @@ export default function FarmerPage() {
                 <CardDescription>
                   Here's your farm's overview for today. Get smart advice to optimize your yield.
                 </CardDescription>
-              </CardHeader>
+              </Header>
               <CardContent>
                 <p className="text-sm text-muted-foreground">Your smart farming companion.</p>
               </CardContent>

@@ -28,18 +28,22 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { useLanguage } from '@/context/language-context';
 
 export function Header() {
   const { user } = useUser();
   const auth = useAuth();
   const router = useRouter();
-  // Find a placeholder image. This could be improved to be dynamic based on user data.
+  const { language, setLanguage, translations } = useLanguage();
+  
   const userAvatar = PlaceHolderImages.find((img) => img.id === '1'); 
   const userName = user?.displayName || user?.email || 'Anonymous';
   const userInitial = userName.charAt(0).toUpperCase();
 
   const handleLogout = () => {
-    auth.signOut();
+    if (auth) {
+      auth.signOut();
+    }
     router.push('/login');
   };
 
@@ -50,12 +54,12 @@ export function Header() {
         <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
         <Input
           type="search"
-          placeholder="Search..."
+          placeholder={translations.header.searchPlaceholder}
           className="w-full rounded-lg bg-card pl-8 md:w-[200px] lg:w-[320px]"
         />
       </div>
       <div className="w-[120px]">
-        <Select defaultValue="en">
+        <Select value={language} onValueChange={(value) => setLanguage(value as 'en' | 'ur' | 'pa')}>
           <SelectTrigger aria-label="Select language">
             <Languages className="w-4 h-4 mr-2" />
             <SelectValue placeholder="Language" />
@@ -83,10 +87,10 @@ export function Header() {
         <DropdownMenuContent align="end">
           <DropdownMenuLabel>{userName}</DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <DropdownMenuItem><UserIcon className="mr-2 h-4 w-4" />Profile</DropdownMenuItem>
-          <DropdownMenuItem><Settings className="mr-2 h-4 w-4" />Settings</DropdownMenuItem>
+          <DropdownMenuItem><UserIcon className="mr-2 h-4 w-4" />{translations.header.profile}</DropdownMenuItem>
+          <DropdownMenuItem><Settings className="mr-2 h-4 w-4" />{translations.header.settings}</DropdownMenuItem>
           <DropdownMenuSeparator />
-          <DropdownMenuItem onClick={handleLogout}><LogOut className="mr-2 h-4 w-4" />Logout</DropdownMenuItem>
+          <DropdownMenuItem onClick={handleLogout}><LogOut className="mr-2 h-4 w-4" />{translations.header.logout}</DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
     </header>

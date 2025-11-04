@@ -1,0 +1,9 @@
+
+{
+    "header": {
+        "searchPlaceholder": "Search...",
+        "profile": "Profile",
+        "settings": "Settings",
+        "logout": "Logout"
+    }
+}

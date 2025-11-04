@@ -1,3 +1,5 @@
+'use client';
+
 import { DashboardLayout } from '@/components/dashboard-layout';
 import { Header } from '@/components/header';
 import { WeatherCard } from '@/components/weather-card';
