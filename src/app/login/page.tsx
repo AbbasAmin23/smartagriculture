@@ -64,7 +64,7 @@ export default function LoginPage() {
                   <Sprout className="w-8 h-8" />
                 </div>
                 <h1 className="text-4xl font-semibold font-headline text-primary">
-                  Kissan Sathi
+                  Smart Agriculture Tracker
                 </h1>
             </Link>
 

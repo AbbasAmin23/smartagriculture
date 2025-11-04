@@ -29,7 +29,7 @@ export default function LandingPage() {
           <div className="p-2 rounded-lg bg-primary text-primary-foreground w-fit">
             <Leaf className="h-6 w-6" />
           </div>
-          <span className="ml-2 text-xl font-semibold text-primary">Kissan Sathi</span>
+          <span className="ml-2 text-xl font-semibold text-primary">Smart Agriculture Tracker</span>
         </Link>
         <nav className="ml-auto flex gap-4 sm:gap-6 items-center">
           <div className="w-[120px]">

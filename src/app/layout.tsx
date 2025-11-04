@@ -5,7 +5,7 @@ import { FirebaseClientProvider } from '@/firebase';
 import { LanguageProvider } from '@/context/language-context';
 
 export const metadata: Metadata = {
-  title: 'Kissan Sathi',
+  title: 'Smart Agriculture Tracker',
   description: 'Your smart farming companion.',
 };
 

@@ -35,7 +35,7 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
               <Sprout className="w-6 h-6" />
             </div>
             <h1 className="text-xl font-semibold font-headline text-primary group-data-[collapsible=icon]:hidden">
-              Kissan Sathi
+              Smart Agriculture Tracker
             </h1>
           </Link>
         </SidebarHeader>
