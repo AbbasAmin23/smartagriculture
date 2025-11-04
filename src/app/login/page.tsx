@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useAuth, useUser } from '@/firebase';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
@@ -19,6 +19,8 @@ import { initiateEmailSignIn, initiateEmailSignUp, initiateAnonymousSignIn } fro
 import { Sprout } from 'lucide-react';
 import Link from 'next/link';
 import { useLanguage } from '@/context/language-context';
+import { useToast } from '@/hooks/use-toast';
+import type { FirebaseError } from 'firebase/app';
 
 export default function LoginPage() {
   const { user, isUserLoading } = useUser();
@@ -29,6 +31,17 @@ export default function LoginPage() {
   const [adminEmail, setAdminEmail] = useState('');
   const [adminPassword, setAdminPassword] = useState('');
   const { translations } = useLanguage();
+  const { toast } = useToast();
+
+  useEffect(() => {
+    if (!isUserLoading && user) {
+        router.push('/dashboard');
+        toast({
+            title: 'Login Successful',
+            description: 'Welcome back!',
+        });
+    }
+  },[user, isUserLoading, router, toast]);
 
 
   if (isUserLoading) {
@@ -36,24 +49,47 @@ export default function LoginPage() {
   }
 
   if (user) {
-    router.push('/dashboard');
     return null;
+  }
+  
+  const handleError = (error: FirebaseError) => {
+    let description = 'An unexpected error occurred.';
+    switch (error.code) {
+        case 'auth/user-not-found':
+        case 'auth/wrong-password':
+            description = 'Invalid email or password. Please try again.';
+            break;
+        case 'auth/invalid-email':
+            description = 'The email address is not valid.';
+            break;
+        case 'auth/email-already-in-use':
+            description = 'This email address is already in use.';
+            break;
+        default:
+            description = error.message;
+            break;
+    }
+    toast({
+        variant: 'destructive',
+        title: 'Authentication Failed',
+        description: description,
+    });
   }
 
   const handleSignUp = () => {
-    initiateEmailSignUp(auth, email, password);
+    initiateEmailSignUp(auth, email, password, handleError);
   };
 
   const handleLogin = () => {
-    initiateEmailSignIn(auth, email, password);
+    initiateEmailSignIn(auth, email, password, handleError);
   };
   
   const handleAnonymousLogin = () => {
-    initiateAnonymousSignIn(auth);
+    initiateAnonymousSignIn(auth, handleError);
   };
 
   const handleAdminLogin = () => {
-    initiateEmailSignIn(auth, adminEmail, adminPassword);
+    initiateEmailSignIn(auth, adminEmail, adminPassword, handleError);
   }
 
   return (
