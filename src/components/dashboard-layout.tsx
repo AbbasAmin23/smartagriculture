@@ -16,9 +16,9 @@ import { usePathname } from 'next/navigation';
 
 const navItems = [
   { href: '/', icon: Home, label: 'Dashboard' },
-  { href: '#market', icon: Newspaper, label: 'Market' },
-  { href: '#weather', icon: CloudSun, label: 'Weather' },
-  { href: '#community', icon: Users, label: 'Community' },
+  { href: '/market', icon: Newspaper, label: 'Market' },
+  { href: '/weather', icon: CloudSun, label: 'Weather' },
+  { href: '/community', icon: Users, label: 'Community' },
 ];
 
 export function DashboardLayout({ children }: { children: React.ReactNode }) {
@@ -43,7 +43,7 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
               <SidebarMenuItem key={item.label}>
                 <SidebarMenuButton
                   asChild
-                  isActive={item.href==='/' ? pathname === item.href : pathname.includes(item.href)}
+                  isActive={item.href === '/' ? pathname === item.href : pathname.startsWith(item.href)}
                   tooltip={item.label}
                 >
                   <Link href={item.href}>

@@ -14,12 +14,20 @@ import {
   Settings,
   LogOut,
   User as UserIcon,
+  Languages,
 } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { SidebarTrigger } from './ui/sidebar';
 import { useAuth, useUser } from '@/firebase';
 import { useRouter } from 'next/navigation';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 
 export function Header() {
   const { user } = useUser();
@@ -45,6 +53,19 @@ export function Header() {
           placeholder="Search..."
           className="w-full rounded-lg bg-card pl-8 md:w-[200px] lg:w-[320px]"
         />
+      </div>
+      <div className="w-[120px]">
+        <Select defaultValue="en">
+          <SelectTrigger aria-label="Select language">
+            <Languages className="w-4 h-4 mr-2" />
+            <SelectValue placeholder="Language" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="en">English</SelectItem>
+            <SelectItem value="ur">Urdu</SelectItem>
+            <SelectItem value="pa">Punjabi</SelectItem>
+          </SelectContent>
+        </Select>
       </div>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
