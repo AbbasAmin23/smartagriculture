@@ -17,15 +17,38 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { useCollection, useFirestore, useUser, useMemoFirebase, addDocumentNonBlocking, deleteDocumentNonBlocking } from '@/firebase';
+import {
+  useCollection,
+  useFirestore,
+  useUser,
+  useMemoFirebase,
+  addDocumentNonBlocking,
+  deleteDocumentNonBlocking,
+  updateDocumentNonBlocking,
+} from '@/firebase';
 import { collection, query, orderBy, serverTimestamp, doc } from 'firebase/firestore';
 import React from 'react';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog"
+import { Input } from './ui/input';
 
 
 export function CommunityForum() {
   const firestore = useFirestore();
   const { user } = useUser();
   const [newPostContent, setNewPostContent] = React.useState('');
+  const [editingPostId, setEditingPostId] = React.useState<string | null>(null);
+  const [editingContent, setEditingContent] = React.useState('');
+  const [showDeleteConfirm, setShowDeleteConfirm] = React.useState(false);
+  const [postToDelete, setPostToDelete] = React.useState<string | null>(null);
 
   const postsQuery = useMemoFirebase(() => {
     if (!firestore) return null;
@@ -40,7 +63,7 @@ export function CommunityForum() {
     const postsCollection = collection(firestore, 'forumPosts');
     addDocumentNonBlocking(postsCollection, {
       farmerId: user.uid,
-      authorName: user.displayName || user.email,
+      authorName: user.displayName || user.email?.split('@')[0] || 'Anonymous',
       authorAvatarId: '1', // Default avatar for now
       content: newPostContent,
       dateCreated: serverTimestamp(),
@@ -48,10 +71,34 @@ export function CommunityForum() {
     setNewPostContent('');
   };
 
-  const handleDeletePost = (postId: string) => {
-    if (!firestore) return;
-    const postDoc = doc(firestore, 'forumPosts', postId);
+  const confirmDeletePost = (postId: string) => {
+    setPostToDelete(postId);
+    setShowDeleteConfirm(true);
+  };
+
+  const handleDeletePost = () => {
+    if (!firestore || !postToDelete) return;
+    const postDoc = doc(firestore, 'forumPosts', postToDelete);
     deleteDocumentNonBlocking(postDoc);
+    setShowDeleteConfirm(false);
+    setPostToDelete(null);
+  };
+  
+  const handleEditPost = (post: any) => {
+    setEditingPostId(post.id);
+    setEditingContent(post.content);
+  };
+
+  const handleCancelEdit = () => {
+    setEditingPostId(null);
+    setEditingContent('');
+  };
+
+  const handleUpdatePost = () => {
+    if (!firestore || !editingPostId || !editingContent.trim()) return;
+    const postDoc = doc(firestore, 'forumPosts', editingPostId);
+    updateDocumentNonBlocking(postDoc, { content: editingContent });
+    handleCancelEdit();
   };
 
   return (
@@ -68,8 +115,8 @@ export function CommunityForum() {
       <CardContent className="space-y-6">
         {user && (
           <div className="space-y-2">
-            <Textarea 
-              placeholder="Share your thoughts or ask a question..." 
+            <Textarea
+              placeholder="Share your thoughts or ask a question..."
               value={newPostContent}
               onChange={(e) => setNewPostContent(e.target.value)}
             />
@@ -94,7 +141,7 @@ export function CommunityForum() {
                   <div className="flex justify-between items-start">
                     <div>
                       <p className="font-semibold">{authorName}</p>
-                      <p className="text-xs text-muted-foreground">{postDate}</p>
+                      <p className="text-xs text-muted-foreground">{postDate || 'Just now'}</p>
                     </div>
                     {isOwner && (
                       <DropdownMenu>
@@ -104,20 +151,43 @@ export function CommunityForum() {
                           </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
-                          <DropdownMenuItem><Edit className="mr-2 h-4 w-4" /> Edit</DropdownMenuItem>
-                          <DropdownMenuItem onClick={() => handleDeletePost(post.id)} className="text-destructive focus:text-destructive focus:bg-destructive/10"><Trash2 className="mr-2 h-4 w-4" /> Delete</DropdownMenuItem>
+                          <DropdownMenuItem onClick={() => handleEditPost(post)}><Edit className="mr-2 h-4 w-4" /> Edit</DropdownMenuItem>
+                          <DropdownMenuItem onClick={() => confirmDeletePost(post.id)} className="text-destructive focus:text-destructive focus:bg-destructive/10"><Trash2 className="mr-2 h-4 w-4" /> Delete</DropdownMenuItem>
                         </DropdownMenuContent>
                       </DropdownMenu>
                     )}
                   </div>
-                  <p className="mt-2 text-sm">{post.content}</p>
-                   {/* Comment section can be added later */}
+                  {editingPostId === post.id ? (
+                     <div className="mt-2 space-y-2">
+                        <Input value={editingContent} onChange={(e) => setEditingContent(e.target.value)} />
+                        <div className="flex gap-2 justify-end">
+                            <Button variant="ghost" size="sm" onClick={handleCancelEdit}>Cancel</Button>
+                            <Button size="sm" onClick={handleUpdatePost}>Update</Button>
+                        </div>
+                     </div>
+                  ) : (
+                    <p className="mt-2 text-sm">{post.content}</p>
+                  )}
                 </div>
               </div>
             );
           })}
         </div>
       </CardContent>
+       <AlertDialog open={showDeleteConfirm} onOpenChange={setShowDeleteConfirm}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This action cannot be undone. This will permanently delete your post.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel onClick={() => setShowDeleteConfirm(false)}>Cancel</AlertDialogCancel>
+            <AlertDialogAction onClick={handleDeletePost} className="bg-destructive hover:bg-destructive/90">Delete</AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </Card>
   );
 }
