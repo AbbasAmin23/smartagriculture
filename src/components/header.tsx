@@ -13,15 +13,28 @@ import {
   Search,
   Settings,
   LogOut,
-  User,
+  User as UserIcon,
 } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { user } from '@/lib/mock-data';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { SidebarTrigger } from './ui/sidebar';
+import { useAuth, useUser } from '@/firebase';
+import { useRouter } from 'next/navigation';
 
 export function Header() {
-  const userAvatar = PlaceHolderImages.find((img) => img.id === user.avatarId);
+  const { user } = useUser();
+  const auth = useAuth();
+  const router = useRouter();
+  // Find a placeholder image. This could be improved to be dynamic based on user data.
+  const userAvatar = PlaceHolderImages.find((img) => img.id === '1'); 
+  const userName = user?.displayName || user?.email || 'Anonymous';
+  const userInitial = userName.charAt(0).toUpperCase();
+
+  const handleLogout = () => {
+    auth.signOut();
+    router.push('/login');
+  };
+
   return (
     <header className="sticky top-0 z-30 flex h-14 items-center gap-4 border-b bg-background/80 backdrop-blur-sm px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6 mb-4">
        <SidebarTrigger className="md:hidden" />
@@ -41,18 +54,18 @@ export function Header() {
             className="overflow-hidden rounded-full"
           >
             <Avatar className="h-8 w-8">
-              {userAvatar && <AvatarImage src={userAvatar.imageUrl} alt={user.name} data-ai-hint={userAvatar.imageHint}/>}
-              <AvatarFallback>{user.name.charAt(0)}</AvatarFallback>
+              {userAvatar && user?.photoURL ? <AvatarImage src={user.photoURL} alt={userName} /> : userAvatar ? <AvatarImage src={userAvatar.imageUrl} alt={userName} data-ai-hint={userAvatar.imageHint}/> : null}
+              <AvatarFallback>{userInitial}</AvatarFallback>
             </Avatar>
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
-          <DropdownMenuLabel>{user.name}</DropdownMenuLabel>
+          <DropdownMenuLabel>{userName}</DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <DropdownMenuItem><User className="mr-2 h-4 w-4" />Profile</DropdownMenuItem>
+          <DropdownMenuItem><UserIcon className="mr-2 h-4 w-4" />Profile</DropdownMenuItem>
           <DropdownMenuItem><Settings className="mr-2 h-4 w-4" />Settings</DropdownMenuItem>
           <DropdownMenuSeparator />
-          <DropdownMenuItem><LogOut className="mr-2 h-4 w-4" />Logout</DropdownMenuItem>
+          <DropdownMenuItem onClick={handleLogout}><LogOut className="mr-2 h-4 w-4" />Logout</DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
     </header>

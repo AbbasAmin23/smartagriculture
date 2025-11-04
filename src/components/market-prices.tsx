@@ -16,8 +16,7 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
-import { marketPrices as allMarketPrices } from '@/lib/mock-data';
-import { ArrowUp, ArrowDown, Minus, Search } from 'lucide-react';
+import { ArrowUp, ArrowDown, Minus, Search, Leaf } from 'lucide-react';
 import {
   ChartContainer,
   ChartTooltip,
@@ -26,6 +25,8 @@ import {
 } from '@/components/ui/chart';
 import { Area, AreaChart } from 'recharts';
 import { Input } from './ui/input';
+import { useCollection, useFirestore, useMemoFirebase } from '@/firebase';
+import { collection, query } from 'firebase/firestore';
 
 const trendIcons = {
   up: <ArrowUp className="w-4 h-4 text-green-500" />,
@@ -40,9 +41,21 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
+const generateRandomPrices = () => Array.from({ length: 7 }, () => Math.floor(Math.random() * 50) + 20);
+
 export function MarketPrices() {
   const [search, setSearch] = useState('');
-  const marketPrices = allMarketPrices.filter(item => item.name.toLowerCase().includes(search.toLowerCase()));
+  const firestore = useFirestore();
+
+  const marketDataQuery = useMemoFirebase(() => {
+    if (!firestore) return null;
+    return query(collection(firestore, 'marketData'));
+  }, [firestore]);
+
+  const { data: marketPrices, isLoading } = useCollection<any>(marketDataQuery);
+  
+  const filteredPrices = marketPrices?.filter(item => item.vegetableName.toLowerCase().includes(search.toLowerCase())) || [];
+
 
   return (
     <Card>
@@ -76,26 +89,32 @@ export function MarketPrices() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {marketPrices.map((item) => (
+            {isLoading && <TableRow><TableCell colSpan={4}>Loading...</TableCell></TableRow>}
+            {filteredPrices.map((item) => {
+              // Mocking trend and 7-day prices for now
+              const trend = ['up', 'down', 'stable'][Math.floor(Math.random() * 3)]; 
+              const prices = generateRandomPrices();
+
+              return (
               <TableRow key={item.id}>
                 <TableCell>
                   <div className="flex items-center gap-3">
-                    <item.icon className="w-6 h-6 text-primary" />
-                    <span className="font-medium">{item.name}</span>
+                    <Leaf className="w-6 h-6 text-primary" />
+                    <span className="font-medium">{item.vegetableName}</span>
                   </div>
                 </TableCell>
-                <TableCell className="text-right font-medium">₹{item.price.toFixed(2)}</TableCell>
+                <TableCell className="text-right font-medium">₹{item.pricePerKg.toFixed(2)}</TableCell>
                 <TableCell className="text-right">
-                  <Badge variant={item.trend === 'up' ? 'default' : item.trend === 'down' ? 'destructive' : 'secondary'} className="flex items-center gap-1 w-fit ml-auto">
-                    {trendIcons[item.trend as keyof typeof trendIcons]}
-                    {item.trend}
+                  <Badge variant={trend === 'up' ? 'default' : trend === 'down' ? 'destructive' : 'secondary'} className="flex items-center gap-1 w-fit ml-auto">
+                    {trendIcons[trend as keyof typeof trendIcons]}
+                    {trend}
                   </Badge>
                 </TableCell>
                 <TableCell className="text-right">
                   <ChartContainer config={chartConfig} className="h-10 w-full">
                     <AreaChart
                       accessibilityLayer
-                      data={item.prices.map((price, index) => ({ day: index, price }))}
+                      data={prices.map((price, index) => ({ day: index, price }))}
                       margin={{
                         left: 0,
                         right: 0,
@@ -124,7 +143,7 @@ export function MarketPrices() {
                   </ChartContainer>
                 </TableCell>
               </TableRow>
-            ))}
+            )})}
           </TableBody>
         </Table>
       </CardContent>
