@@ -193,5 +193,3 @@ export function MarketPrices() {
     </Card>
   );
 }
-
-    
