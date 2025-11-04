@@ -10,7 +10,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
-import { Users, MessageSquare, MoreHorizontal, Edit, Trash2 } from 'lucide-react';
+import { Users, MoreHorizontal, Edit, Trash2 } from 'lucide-react';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -82,17 +82,18 @@ export function CommunityForum() {
             const authorAvatar = PlaceHolderImages.find((img) => img.id === post.authorAvatarId);
             const postDate = post.dateCreated?.toDate().toLocaleTimeString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
             const isOwner = user && post.farmerId === user.uid;
+            const authorName = post.authorName || 'Anonymous';
 
             return (
               <div key={post.id} className="flex gap-3">
                 <Avatar>
-                  {authorAvatar && <AvatarImage src={authorAvatar.imageUrl} alt={post.authorName} data-ai-hint={authorAvatar.imageHint}/>}
-                  <AvatarFallback>{post.authorName?.charAt(0) || 'U'}</AvatarFallback>
+                  {authorAvatar && <AvatarImage src={authorAvatar.imageUrl} alt={authorName} data-ai-hint={authorAvatar.imageHint}/>}
+                  <AvatarFallback>{authorName.charAt(0) || 'A'}</AvatarFallback>
                 </Avatar>
                 <div className="flex-1">
                   <div className="flex justify-between items-start">
                     <div>
-                      <p className="font-semibold">{post.authorName}</p>
+                      <p className="font-semibold">{authorName}</p>
                       <p className="text-xs text-muted-foreground">{postDate}</p>
                     </div>
                     {isOwner && (
