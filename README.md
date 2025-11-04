@@ -1,4 +1,4 @@
-# Firebase Studio
+# Smart Agriculture Tracker
 
 This is a NextJS starter in Firebase Studio.
 
