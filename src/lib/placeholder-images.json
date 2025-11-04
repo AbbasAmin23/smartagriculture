@@ -1,3 +1,28 @@
 {
-  "placeholderImages": []
+  "placeholderImages": [
+    {
+      "id": "1",
+      "description": "User avatar for Ramesh Kumar",
+      "imageUrl": "https://images.unsplash.com/photo-1624395213043-fa2e123b2656?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxtYW4lMjBwb3J0cmFpdHxlbnwwfHx8fDE3NjIyMjQ5MzB8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "man portrait"
+    },
+    {
+      "id": "2",
+      "description": "User avatar for Suresh Patel",
+      "imageUrl": "https://images.unsplash.com/photo-1695566371955-5f07b6443657?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxwZXJzb24lMjBmYXJtaW5nfGVufDB8fHx8MTc2MjI0MTY4MHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "person farming"
+    },
+    {
+      "id": "3",
+      "description": "User avatar for Vikram Singh",
+      "imageUrl": "https://images.unsplash.com/photo-1715443972682-d978e13876f6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxmYXJtZXIlMjBzbWlsaW5nfGVufDB8fHx8MTc2MjE4MDAyMnww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "farmer smiling"
+    },
+    {
+      "id": "4",
+      "description": "User avatar for Anita Desai",
+      "imageUrl": "https://images.unsplash.com/photo-1616672239881-aec9f3f43521?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHx3b21hbiUyMGZhcm1lcnxlbnwwfHx8fDE3NjIxMjY4OTB8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "woman farmer"
+    }
+  ]
 }
