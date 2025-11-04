@@ -25,9 +25,8 @@ service cloud.firestore {
     // MarketData collection
     match /marketData/{marketDataId} {
       allow read: if true;
-      // assuming only admins can write to marketData
-      // a custom claim `isAdmin` should be set on the user's token
-      allow write: if isSignedIn() && request.auth.token.isAdmin == true;
+      // Allow write if the user is signed in and their email contains 'admin'
+      allow write: if isSignedIn() && request.auth.token.email.matches('.*admin.*');
     }
     
     // WeatherUpdates collection
