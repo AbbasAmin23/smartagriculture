@@ -13,16 +13,18 @@ import {
 import { Home, Newspaper, CloudSun, Users, Sprout } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-
-const navItems = [
-  { href: '/dashboard', icon: Home, label: 'Dashboard' },
-  { href: '/market', icon: Newspaper, label: 'Market' },
-  { href: '/weather', icon: CloudSun, label: 'Weather' },
-  { href: '/community', icon: Users, label: 'Community' },
-];
+import { useLanguage } from '@/context/language-context';
 
 export function DashboardLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+  const { translations } = useLanguage();
+
+  const navItems = [
+    { href: '/dashboard', icon: Home, label: translations.dashboard.dashboard },
+    { href: '/market', icon: Newspaper, label: translations.dashboard.market },
+    { href: '/weather', icon: CloudSun, label: translations.dashboard.weather },
+    { href: '/community', icon: Users, label: translations.dashboard.community },
+  ];
 
   return (
     <SidebarProvider>
@@ -43,7 +45,7 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
               <SidebarMenuItem key={item.label}>
                 <SidebarMenuButton
                   asChild
-                  isActive={pathname.startsWith(item.href)}
+                  isActive={pathname === item.href}
                   tooltip={item.label}
                 >
                   <Link href={item.href}>

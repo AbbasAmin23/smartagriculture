@@ -1,16 +1,26 @@
+'use client';
+
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
-import { Leaf, Tractor, Wheat } from 'lucide-react';
+import { Leaf, Tractor, Wheat, Languages } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useLanguage } from '@/context/language-context';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 
 export default function LandingPage() {
+  const { language, setLanguage, translations } = useLanguage();
   const heroImage = PlaceHolderImages.find((img) => img.id === 'hero');
   const feature1Image = PlaceHolderImages.find((img) => img.id === 'feature1');
   const feature2Image = PlaceHolderImages.find((img) => img.id === 'feature2');
   const feature3Image = PlaceHolderImages.find((img) => img.id === 'feature3');
-
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -21,15 +31,28 @@ export default function LandingPage() {
           </div>
           <span className="ml-2 text-xl font-semibold text-primary">Kissan Sathi</span>
         </Link>
-        <nav className="ml-auto flex gap-4 sm:gap-6">
+        <nav className="ml-auto flex gap-4 sm:gap-6 items-center">
+          <div className="w-[120px]">
+            <Select value={language} onValueChange={(value) => setLanguage(value as 'en' | 'ur' | 'pa')}>
+              <SelectTrigger aria-label="Select language" className="h-9">
+                <Languages className="w-4 h-4 mr-2" />
+                <SelectValue placeholder="Language" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="en">English</SelectItem>
+                <SelectItem value="ur">Urdu</SelectItem>
+                <SelectItem value="pa">Punjabi</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
           <Link
             href="/login"
             className="text-sm font-medium hover:underline underline-offset-4"
           >
-            Login
+            {translations.landingPage.login}
           </Link>
           <Button asChild>
-            <Link href="/dashboard">Go to Dashboard</Link>
+            <Link href="/dashboard">{translations.landingPage.goToDashboard}</Link>
           </Button>
         </nav>
       </header>
@@ -47,14 +70,14 @@ export default function LandingPage() {
           <div className="container px-4 md:px-6 text-center text-white relative">
             <div className="bg-black/50 p-8 rounded-lg inline-block">
                 <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl/none">
-                Empowering Farmers with Technology
+                  {translations.landingPage.heroTitle}
                 </h1>
                 <p className="mx-auto max-w-[700px] text-gray-200 md:text-xl mt-4">
-                Your smart farming companion for market prices, weather forecasts, and community support.
+                  {translations.landingPage.heroSubtitle}
                 </p>
                 <div className="mt-6">
                 <Button asChild size="lg">
-                    <Link href="/dashboard">Get Started</Link>
+                    <Link href="/dashboard">{translations.landingPage.getStarted}</Link>
                 </Button>
                 </div>
             </div>
@@ -65,13 +88,13 @@ export default function LandingPage() {
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
                 <div className="inline-block rounded-lg bg-muted px-3 py-1 text-sm">
-                  Key Features
+                  {translations.landingPage.keyFeatures}
                 </div>
                 <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
-                  Everything a Modern Farmer Needs
+                  {translations.landingPage.featuresTitle}
                 </h2>
                 <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                  From real-time data to a supportive community, we provide the tools to help you thrive.
+                  {translations.landingPage.featuresSubtitle}
                 </p>
               </div>
             </div>
@@ -88,10 +111,10 @@ export default function LandingPage() {
                     />
                 }
                 <CardHeader>
-                  <CardTitle className="flex items-center gap-2"><Wheat className="text-primary"/>Market Insights</CardTitle>
+                  <CardTitle className="flex items-center gap-2"><Wheat className="text-primary"/>{translations.landingPage.marketInsightsTitle}</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p>Get up-to-date market prices for your produce to make informed selling decisions.</p>
+                  <p>{translations.landingPage.marketInsightsDescription}</p>
                 </CardContent>
               </Card>
               <Card>
@@ -106,10 +129,10 @@ export default function LandingPage() {
                     />
                 }
                 <CardHeader>
-                  <CardTitle className="flex items-center gap-2"><Leaf className="text-primary"/>AI-Powered Advice</CardTitle>
+                  <CardTitle className="flex items-center gap-2"><Leaf className="text-primary"/>{translations.landingPage.aiAdviceTitle}</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p>Receive smart recommendations based on weather patterns and market trends to optimize your yield.</p>
+                  <p>{translations.landingPage.aiAdviceDescription}</p>
                 </CardContent>
               </Card>
                <Card>
@@ -124,10 +147,10 @@ export default function LandingPage() {
                     />
                 }
                 <CardHeader>
-                  <CardTitle className="flex items-center gap-2"><Tractor className="text-primary"/>Community Forum</CardTitle>
+                  <CardTitle className="flex items-center gap-2"><Tractor className="text-primary"/>{translations.landingPage.communityForumTitle}</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p>Connect with other farmers, share knowledge, and ask questions in our community forum.</p>
+                  <p>{translations.landingPage.communityForumDescription}</p>
                 </CardContent>
               </Card>
             </div>
@@ -136,14 +159,14 @@ export default function LandingPage() {
       </main>
       <footer className="flex flex-col gap-2 sm:flex-row py-6 w-full shrink-0 items-center px-4 md:px-6 border-t">
         <p className="text-xs text-muted-foreground">
-          © Kissan Sathi. All rights reserved.
+          {translations.landingPage.footerRights}
         </p>
         <nav className="sm:ml-auto flex gap-4 sm:gap-6">
           <Link href="#" className="text-xs hover:underline underline-offset-4">
-            Terms of Service
+            {translations.landingPage.termsOfService}
           </Link>
           <Link href="#" className="text-xs hover:underline underline-offset-4">
-            Privacy
+            {translations.landingPage.privacy}
           </Link>
         </nav>
       </footer>

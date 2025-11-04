@@ -5,5 +5,113 @@
         "profile": "پروفائل",
         "settings": "ترتیبات",
         "logout": "لاگ آؤٹ"
+    },
+    "landingPage": {
+        "login": "لاگ ان",
+        "goToDashboard": "ڈیش بورڈ پر جائیں",
+        "heroTitle": "ٹیکنالوجی سے کسانوں کو بااختیار بنانا",
+        "heroSubtitle": "مارکیٹ کی قیمتوں، موسم کی پیشن گوئی، اور کمیونٹی سپورٹ کے لیے آپ کا سمارٹ فارمنگ ساتھی۔",
+        "getStarted": "شروع کریں",
+        "keyFeatures": "اہم خصوصیات",
+        "featuresTitle": "ایک جدید کسان کی ہر ضرورت",
+        "featuresSubtitle": "ریئل ٹائم ڈیٹا سے لے کر ایک معاون کمیونٹی تک، ہم آپ کو ترقی کرنے میں مدد کے لیے ٹولز فراہم کرتے ہیں۔",
+        "marketInsightsTitle": "مارکیٹ کی بصیرتیں۔",
+        "marketInsightsDescription": "باخبر فروخت کے فیصلے کرنے کے لیے اپنی پیداوار کے لیے تازہ ترین مارکیٹ قیمتیں حاصل کریں۔",
+        "aiAdviceTitle": "AI سے چلنے والی نصیحت",
+        "aiAdviceDescription": "اپنی پیداوار کو بہتر بنانے کے لیے موسم کے نمونوں اور مارکیٹ کے رجحانات کی بنیاد پر سمارٹ سفارشات حاصل کریں۔",
+        "communityForumTitle": "کمیونٹی فورم",
+        "communityForumDescription": " دوسرے کسانوں کے ساتھ جڑیں، علم کا اشتراک کریں، اور ہمارے کمیونٹی فورم میں سوالات پوچھیں۔",
+        "footerRights": "© کسان ساتھی۔ جملہ حقوق محفوظ ہیں.",
+        "termsOfService": "سروس کی شرائط",
+        "privacy": "رازداری"
+    },
+    "loginPage": {
+        "loading": "لوڈ ہو رہا ہے۔..",
+        "farmer": "کسان",
+        "admin": "ایڈمن",
+        "login": "لاگ ان",
+        "signUp": "سائن اپ",
+        "farmerLoginTitle": "کسان لاگ ان",
+        "farmerLoginDescription": "اپنے اکاؤنٹ تک رسائی کے لیے اپنی اسناد درج کریں۔",
+        "emailLabel": "ای میل",
+        "passwordLabel": "پاس ورڈ",
+        "anonymousLogin": "گمنام طور پر لاگ ان کریں",
+        "farmerSignUpTitle": "کسان سائن اپ",
+        "farmerSignUpDescription": "شروع کرنے کے لیے ایک نیا اکاؤنٹ بنائیں۔",
+        "adminLoginTitle": "ایڈمن لاگ ان",
+        "adminLoginDescription": "ایڈمن پینل تک رسائی کے لیے اپنی ایڈمن اسناد درج کریں۔",
+        "adminEmailLabel": "ایڈمن ای میل",
+        "adminPasswordLabel": "ایڈمن پاس ورڈ",
+        "loginAsAdmin": "ایڈمن کے طور پر لاگ ان کریں"
+    },
+    "dashboard": {
+        "dashboard": "ڈیش بورڈ",
+        "market": "مارکیٹ",
+        "weather": "موسم",
+        "community": "برادری"
+    },
+    "farmerPage": {
+        "welcome": "واپس خوش آمدید",
+        "welcomeDescription": "آج کے لیے آپ کے فارم کا جائزہ یہ ہے۔ اپنی پیداوار کو بہتر بنانے کے لیے سمارٹ مشورہ حاصل کریں۔",
+        "companionText": "آپ کا سمارٹ فارمنگ ساتھی۔"
+    },
+    "adminPage": {
+        "welcome": "واپس خوش آمدید",
+        "welcomeDescription": "پلیٹ فارم کا جائزہ یہ ہے۔ ڈیٹا اور صارفین کا نظم کریں۔",
+        "adminDashboard": "ایڈمن ڈیش بورڈ"
+    },
+    "weather": {
+        "loadingTitle": "موسم لوڈ ہو رہا ہے...",
+        "loadingText": "لوڈ ہو رہا ہے۔..",
+        "unavailableTitle": "موسم دستیاب نہیں ہے۔",
+        "unavailableText": "موسم کا ڈیٹا لوڈ نہیں ہو سکا۔",
+        "forecastTitle": "5 دن کی پیشن گوئی",
+        "forecastDays": {
+            "mon": "پیر",
+            "tue": "منگل",
+            "wed": "بدھ",
+            "thu": "جمعرات",
+            "fri": "جمعہ"
+        }
+    },
+    "marketPrices": {
+        "title": "مارکیٹ کی قیمتیں۔",
+        "description": "ریئل ٹائم سبزیوں اور پھلوں کی قیمتیں۔",
+        "searchPlaceholder": "پیداوار تلاش کریں...",
+        "produce": "پیداوار",
+        "price": "قیمت (فی کلو)",
+        "trend": "رجحان",
+        "sevenDayTrend": "7 دن کا رجحان",
+        "loading": "لوڈ ہو رہا ہے۔..",
+        "trends": {
+            "up": "اوپر",
+            "down": "نیچے",
+            "stable": "مستحکم"
+        }
+    },
+    "smartAdvice": {
+        "title": "سمارٹ کسان کا مشورہ",
+        "description": "اپنے فارم کے لیے AI سے چلنے والی سفارشات حاصل کریں۔",
+        "generating": "مشورہ تیار کیا جا رہا ہے۔..",
+        "plant": "پودا",
+        "plantingTime": "پودے لگانے کا وقت",
+        "reason": "وجہ",
+        "noAdvice": "موجودہ حالات کی بنیاد پر اس وقت کوئی خاص مشورہ نہیں ہے۔",
+        "getAdviceButton": "سمارٹ مشورہ حاصل کریں۔",
+        "generatingButton": "پیدا کر رہا ہے۔.."
+    },
+    "communityForum": {
+        "title": "کمیونٹی فورم",
+        "description": "ساتھی کسانوں سے جڑیں۔ سوالات پوچھیں اور علم بانٹیں۔",
+        "postPlaceholder": "اپنے خیالات کا اشتراک کریں یا کوئی سوال پوچھیں...",
+        "postButton": "پوسٹ",
+        "loadingPosts": "پوسٹس لوڈ ہو رہی ہیں۔..",
+        "justNow": "ابھی ابھی",
+        "edit": "ترمیم",
+        "delete": "حذف کریں",
+        "cancel": "منسوخ کریں",
+        "update": "اپ ڈیٹ",
+        "deleteConfirmTitle": "کیا آپ کو یقین ہے؟",
+        "deleteConfirmDescription": "یہ عمل واپس نہیں کیا جا سکتا۔ یہ آپ کی پوسٹ کو مستقل طور پر حذف کر دے گا۔"
     }
 }

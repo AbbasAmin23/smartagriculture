@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { CloudSun, Droplets, Sun, Wind, CloudRain, CloudLightning } from 'lucide-react';
 import { useDoc, useFirestore, useMemoFirebase } from '@/firebase';
 import { doc } from 'firebase/firestore';
+import { useLanguage } from '@/context/language-context';
 
 const iconMap: { [key: string]: React.ElementType } = {
   CloudSun,
@@ -15,6 +16,7 @@ const iconMap: { [key: string]: React.ElementType } = {
 
 export function WeatherCard() {
   const firestore = useFirestore();
+  const { translations } = useLanguage();
   
   // Assuming a single, known document for weather for simplicity.
   const weatherDocRef = useMemoFirebase(() => {
@@ -28,10 +30,10 @@ export function WeatherCard() {
     return (
        <Card className="sm:col-span-2">
          <CardHeader className="pb-2">
-           <CardTitle className="text-lg">Loading Weather...</CardTitle>
+           <CardTitle className="text-lg">{translations.weather.loadingTitle}</CardTitle>
          </CardHeader>
          <CardContent>
-            <p>Loading...</p>
+            <p>{translations.weather.loadingText}</p>
          </CardContent>
        </Card>
     )
@@ -41,21 +43,21 @@ export function WeatherCard() {
     return (
        <Card className="sm:col-span-2">
          <CardHeader className="pb-2">
-           <CardTitle className="text-lg">Weather Unavailable</CardTitle>
+           <CardTitle className="text-lg">{translations.weather.unavailableTitle}</CardTitle>
          </CardHeader>
          <CardContent>
-            <p>Could not load weather data.</p>
+            <p>{translations.weather.unavailableText}</p>
          </CardContent>
        </Card>
     )
   }
 
   const forecast = [
-      { day: 'Mon', temp: 29, icon: 'CloudSun' },
-      { day: 'Tue', temp: 31, icon: 'Sun' },
-      { day: 'Wed', temp: 27, icon: 'CloudRain' },
-      { day: 'Thu', temp: 28, icon: 'CloudLightning' },
-      { day: 'Fri', temp: 30, icon: 'Sun' },
+      { day: translations.weather.forecastDays.mon, temp: 29, icon: 'CloudSun' },
+      { day: translations.weather.forecastDays.tue, temp: 31, icon: 'Sun' },
+      { day: translations.weather.forecastDays.wed, temp: 27, icon: 'CloudRain' },
+      { day: translations.weather.forecastDays.thu, temp: 28, icon: 'CloudLightning' },
+      { day: translations.weather.forecastDays.fri, temp: 30, icon: 'Sun' },
     ];
 
   return (
@@ -82,7 +84,7 @@ export function WeatherCard() {
           </div>
         </div>
         <div className="mt-6">
-          <p className="text-sm font-medium mb-2">5-Day Forecast</p>
+          <p className="text-sm font-medium mb-2">{translations.weather.forecastTitle}</p>
           <div className="flex justify-between text-center">
             {forecast.map((day) => {
               const Icon = iconMap[day.icon];

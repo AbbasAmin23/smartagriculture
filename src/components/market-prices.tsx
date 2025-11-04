@@ -27,6 +27,7 @@ import { Area, AreaChart } from 'recharts';
 import { Input } from './ui/input';
 import { useCollection, useFirestore, useMemoFirebase } from '@/firebase';
 import { collection, query } from 'firebase/firestore';
+import { useLanguage } from '@/context/language-context';
 
 const trendIcons = {
   up: <ArrowUp className="w-4 h-4 text-green-500" />,
@@ -46,6 +47,7 @@ const generateRandomPrices = () => Array.from({ length: 7 }, () => Math.floor(Ma
 export function MarketPrices() {
   const [search, setSearch] = useState('');
   const firestore = useFirestore();
+  const { translations } = useLanguage();
 
   const marketDataQuery = useMemoFirebase(() => {
     if (!firestore) return null;
@@ -62,15 +64,15 @@ export function MarketPrices() {
       <CardHeader>
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
           <div>
-            <CardTitle>Market Prices</CardTitle>
+            <CardTitle>{translations.marketPrices.title}</CardTitle>
             <CardDescription>
-              Real-time vegetable and fruit prices.
+              {translations.marketPrices.description}
             </CardDescription>
           </div>
           <div className="relative w-full sm:w-64">
             <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
             <Input 
-              placeholder="Search produce..."
+              placeholder={translations.marketPrices.searchPlaceholder}
               className="pl-8"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
@@ -82,14 +84,14 @@ export function MarketPrices() {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Produce</TableHead>
-              <TableHead className="text-right">Price (per kg)</TableHead>
-              <TableHead className="text-right">Trend</TableHead>
-              <TableHead className="text-right w-[150px]">7-Day Trend</TableHead>
+              <TableHead>{translations.marketPrices.produce}</TableHead>
+              <TableHead className="text-right">{translations.marketPrices.price}</TableHead>
+              <TableHead className="text-right">{translations.marketPrices.trend}</TableHead>
+              <TableHead className="text-right w-[150px]">{translations.marketPrices.sevenDayTrend}</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {isLoading && <TableRow><TableCell colSpan={4}>Loading...</TableCell></TableRow>}
+            {isLoading && <TableRow><TableCell colSpan={4}>{translations.marketPrices.loading}</TableCell></TableRow>}
             {filteredPrices.map((item) => {
               // Mocking trend and 7-day prices for now
               const trend = ['up', 'down', 'stable'][Math.floor(Math.random() * 3)]; 
@@ -107,7 +109,7 @@ export function MarketPrices() {
                 <TableCell className="text-right">
                   <Badge variant={trend === 'up' ? 'default' : trend === 'down' ? 'destructive' : 'secondary'} className="flex items-center gap-1 w-fit ml-auto">
                     {trendIcons[trend as keyof typeof trendIcons]}
-                    {trend}
+                    {translations.marketPrices.trends[trend as keyof typeof translations.marketPrices.trends]}
                   </Badge>
                 </TableCell>
                 <TableCell className="text-right">

@@ -5,5 +5,113 @@
         "profile": "ਪ੍ਰੋਫਾਈਲ",
         "settings": "ਸੈਟਿੰਗਾਂ",
         "logout": "ਲਾਗ ਆਉਟ"
+    },
+    "landingPage": {
+        "login": "ਲਾਗਇਨ",
+        "goToDashboard": "ਡੈਸ਼ਬੋਰਡ ਤੇ ਜਾਓ",
+        "heroTitle": "ਤਕਨਾਲੋਜੀ ਨਾਲ ਕਿਸਾਨਾਂ ਨੂੰ ਸ਼ਕਤੀ ਪ੍ਰਦਾਨ ਕਰਨਾ",
+        "heroSubtitle": "ਮਾਰਕੀਟ ਕੀਮਤਾਂ, ਮੌਸਮ ਦੀ ਭਵਿੱਖਬਾਣੀ, ਅਤੇ ਕਮਿਊਨਿਟੀ ਸਹਾਇਤਾ ਲਈ ਤੁਹਾਡਾ ਸਮਾਰਟ ਖੇਤੀ ਸਾਥੀ।",
+        "getStarted": "ਸ਼ੁਰੂ ਕਰੋ",
+        "keyFeatures": "ਮੁੱਖ ਵਿਸ਼ੇਸ਼ਤਾਵਾਂ",
+        "featuresTitle": "ਇੱਕ ਆਧੁਨਿਕ ਕਿਸਾਨ ਨੂੰ ਲੋੜੀਂਦੀ ਹਰ ਚੀਜ਼",
+        "featuresSubtitle": "ਰੀਅਲ-ਟਾਈਮ ਡੇਟਾ ਤੋਂ ਲੈ ਕੇ ਇੱਕ ਸਹਾਇਕ ਭਾਈਚਾਰੇ ਤੱਕ, ਅਸੀਂ ਤੁਹਾਨੂੰ ਵਧਣ-ਫੁੱਲਣ ਵਿੱਚ ਮਦਦ ਕਰਨ ਲਈ ਸੰਦ ਪ੍ਰਦਾਨ ਕਰਦੇ ਹਾਂ।",
+        "marketInsightsTitle": "ਮਾਰਕੀਟ ਇਨਸਾਈਟਸ",
+        "marketInsightsDescription": "ਸੂਚਿਤ ਵੇਚਣ ਦੇ ਫੈਸਲੇ ਲੈਣ ਲਈ ਆਪਣੀ ਉਪਜ ਲਈ ਮਾਰਕੀਟ ਦੀਆਂ ਨਵੀਨਤਮ ਕੀਮਤਾਂ ਪ੍ਰਾਪਤ ਕਰੋ।",
+        "aiAdviceTitle": "ਏਆਈ-ਸੰਚਾਲਿਤ ਸਲਾਹ",
+        "aiAdviceDescription": "ਆਪਣੀ ਪੈਦਾਵਾਰ ਨੂੰ ਅਨੁਕੂਲ ਬਣਾਉਣ ਲਈ ਮੌਸਮ ਦੇ ਪੈਟਰਨ ਅਤੇ ਮਾਰਕੀਟ ਦੇ ਰੁਝਾਨਾਂ ਦੇ ਅਧਾਰ ਤੇ ਸਮਾਰਟ ਸਿਫਾਰਸ਼ਾਂ ਪ੍ਰਾਪਤ ਕਰੋ।",
+        "communityForumTitle": "ਕਮਿਊਨਿਟੀ ਫੋਰਮ",
+        "communityForumDescription": "ਦੂਜੇ ਕਿਸਾਨਾਂ ਨਾਲ ਜੁੜੋ, ਗਿਆਨ ਸਾਂਝਾ ਕਰੋ, ਅਤੇ ਸਾਡੇ ਕਮਿਊਨਿਟੀ ਫੋਰਮ ਵਿੱਚ ਸਵਾਲ ਪੁੱਛੋ।",
+        "footerRights": "© ਕਿਸਾਨ ਸਾਥੀ। ਸਾਰੇ ਹੱਕ ਰਾਖਵੇਂ ਹਨ।",
+        "termsOfService": "ਸੇਵਾ ਦੀਆਂ ਸ਼ਰਤਾਂ",
+        "privacy": "ਗੋਪਨੀਯਤਾ"
+    },
+    "loginPage": {
+        "loading": "ਲੋਡ ਹੋ ਰਿਹਾ ਹੈ...",
+        "farmer": "ਕਿਸਾਨ",
+        "admin": "ਐਡਮਿਨ",
+        "login": "ਲਾਗਇਨ",
+        "signUp": "ਸਾਈਨ ਅਪ",
+        "farmerLoginTitle": "ਕਿਸਾਨ ਲਾਗਇਨ",
+        "farmerLoginDescription": "ਆਪਣੇ ਖਾਤੇ ਤੱਕ ਪਹੁੰਚ ਕਰਨ ਲਈ ਆਪਣੇ ਪ੍ਰਮਾਣ ਪੱਤਰ ਦਾਖਲ ਕਰੋ।",
+        "emailLabel": "ਈ - ਮੇਲ",
+        "passwordLabel": "ਪਾਸਵਰਡ",
+        "anonymousLogin": "ਗੁਮਨਾਮ ਤੌਰ 'ਤੇ ਲੌਗਇਨ ਕਰੋ",
+        "farmerSignUpTitle": "ਕਿਸਾਨ ਸਾਈਨ ਅੱਪ",
+        "farmerSignUpDescription": "ਸ਼ੁਰੂਆਤ ਕਰਨ ਲਈ ਇੱਕ ਨਵਾਂ ਖਾਤਾ ਬਣਾਓ।",
+        "adminLoginTitle": "ਐਡਮਿਨ ਲਾਗਇਨ",
+        "adminLoginDescription": "ਐਡਮਿਨ ਪੈਨਲ ਤੱਕ ਪਹੁੰਚ ਕਰਨ ਲਈ ਆਪਣੇ ਐਡਮਿਨ ਪ੍ਰਮਾਣ ਪੱਤਰ ਦਾਖਲ ਕਰੋ।",
+        "adminEmailLabel": "ਐਡਮਿਨ ਈਮੇਲ",
+        "adminPasswordLabel": "ਐਡਮਿਨ ਪਾਸਵਰਡ",
+        "loginAsAdmin": "ਐਡਮਿਨ ਵਜੋਂ ਲੌਗਇਨ ਕਰੋ"
+    },
+    "dashboard": {
+        "dashboard": "ਡੈਸ਼ਬੋਰਡ",
+        "market": "ਬਾਜ਼ਾਰ",
+        "weather": "ਮੌਸਮ",
+        "community": "ਭਾਈਚਾਰਾ"
+    },
+    "farmerPage": {
+        "welcome": "ਜੀ ਆਇਆਂ ਨੂੰ",
+        "welcomeDescription": "ਅੱਜ ਲਈ ਤੁਹਾਡੇ ਫਾਰਮ ਦੀ ਸੰਖੇਪ ਜਾਣਕਾਰੀ ਇੱਥੇ ਹੈ। ਆਪਣੀ ਪੈਦਾਵਾਰ ਨੂੰ ਅਨੁਕੂਲ ਬਣਾਉਣ ਲਈ ਸਮਾਰਟ ਸਲਾਹ ਪ੍ਰਾਪਤ ਕਰੋ।",
+        "companionText": "ਤੁਹਾਡਾ ਸਮਾਰਟ ਖੇਤੀ ਸਾਥੀ।"
+    },
+    "adminPage": {
+        "welcome": "ਜੀ ਆਇਆਂ ਨੂੰ",
+        "welcomeDescription": "ਇੱਥੇ ਪਲੇਟਫਾਰਮ ਦੀ ਸੰਖੇਪ ਜਾਣਕਾਰੀ ਹੈ। ਡੇਟਾ ਅਤੇ ਉਪਭੋਗਤਾਵਾਂ ਦਾ ਪ੍ਰਬੰਧਨ ਕਰੋ।",
+        "adminDashboard": "ਐਡਮਿਨ ਡੈਸ਼ਬੋਰਡ"
+    },
+    "weather": {
+        "loadingTitle": "ਮੌਸਮ ਲੋਡ ਹੋ ਰਿਹਾ ਹੈ...",
+        "loadingText": "ਲੋਡ ਹੋ ਰਿਹਾ ਹੈ...",
+        "unavailableTitle": "ਮੌਸਮ ਉਪਲਬਧ ਨਹੀਂ ਹੈ",
+        "unavailableText": "ਮੌਸਮ ਡਾਟਾ ਲੋਡ ਨਹੀਂ ਕੀਤਾ ਜਾ ਸਕਿਆ।",
+        "forecastTitle": "5-ਦਿਨ ਦੀ ਭਵਿੱਖਬਾਣੀ",
+        "forecastDays": {
+            "mon": "ਸੋਮ",
+            "tue": "ਮੰਗਲ",
+            "wed": "ਬੁੱਧ",
+            "thu": "ਵੀਰ",
+            "fri": "ਸ਼ੁੱਕਰ"
+        }
+    },
+    "marketPrices": {
+        "title": "ਮਾਰਕੀਟ ਕੀਮਤਾਂ",
+        "description": "ਰੀਅਲ-ਟਾਈਮ ਸਬਜ਼ੀਆਂ ਅਤੇ ਫਲਾਂ ਦੀਆਂ ਕੀਮਤਾਂ।",
+        "searchPlaceholder": "ਉਪਜ ਦੀ ਖੋਜ ਕਰੋ...",
+        "produce": "ਉਪਜ",
+        "price": "ਕੀਮਤ (ਪ੍ਰਤੀ ਕਿਲੋ)",
+        "trend": "ਰੁਝਾਨ",
+        "sevenDayTrend": "7-ਦਿਨ ਦਾ ਰੁਝਾਨ",
+        "loading": "ਲੋਡ ਹੋ ਰਿਹਾ ਹੈ...",
+        "trends": {
+            "up": "ਉੱਪਰ",
+            "down": "ਹੇਠਾਂ",
+            "stable": "ਸਥਿਰ"
+        }
+    },
+    "smartAdvice": {
+        "title": "ਸਮਾਰਟ ਕਿਸਾਨ ਸਲਾਹ",
+        "description": "ਆਪਣੇ ਫਾਰਮ ਲਈ AI-ਸੰਚਾਲਿਤ ਸਿਫਾਰਸ਼ਾਂ ਪ੍ਰਾਪਤ ਕਰੋ।",
+        "generating": "ਸਲਾਹ ਤਿਆਰ ਕੀਤੀ ਜਾ ਰਹੀ ਹੈ...",
+        "plant": "ਪੌਦਾ",
+        "plantingTime": "ਬਿਜਾਈ ਦਾ ਸਮਾਂ",
+        "reason": "ਕਾਰਨ",
+        "noAdvice": "ਮੌਜੂਦਾ ਸਥਿਤੀਆਂ ਦੇ ਅਧਾਰ 'ਤੇ ਇਸ ਸਮੇਂ ਕੋਈ ਖਾਸ ਸਲਾਹ ਨਹੀਂ ਹੈ।",
+        "getAdviceButton": "ਸਮਾਰਟ ਸਲਾਹ ਲਵੋ",
+        "generatingButton": "ਤਿਆਰ ਹੋ ਰਿਹਾ ਹੈ..."
+    },
+    "communityForum": {
+        "title": "ਕਮਿਊਨਿਟੀ ਫੋਰਮ",
+        "description": "ਸਾਥੀ ਕਿਸਾਨਾਂ ਨਾਲ ਜੁੜੋ। ਸਵਾਲ ਪੁੱਛੋ ਅਤੇ ਗਿਆਨ ਸਾਂਝਾ ਕਰੋ।",
+        "postPlaceholder": "ਆਪਣੇ ਵਿਚਾਰ ਸਾਂਝੇ ਕਰੋ ਜਾਂ ਕੋਈ ਸਵਾਲ ਪੁੱਛੋ...",
+        "postButton": "ਪੋਸਟ ਕਰੋ",
+        "loadingPosts": "ਪੋਸਟਾਂ ਲੋਡ ਹੋ ਰਹੀਆਂ ਹਨ...",
+        "justNow": "ਹੁਣੇ ਹੁਣੇ",
+        "edit": "ਸੋਧੋ",
+        "delete": "ਮਿਟਾਓ",
+        "cancel": "ਰੱਦ ਕਰੋ",
+        "update": "ਅੱਪਡੇਟ ਕਰੋ",
+        "deleteConfirmTitle": "ਕੀ ਤੁਸੀਂ ਯਕੀਨੀ ਹੋ?",
+        "deleteConfirmDescription": "ਇਹ ਕਾਰਵਾਈ ਵਾਪਸ ਨਹੀਂ ਕੀਤੀ ਜਾ ਸਕਦੀ। ਇਹ ਤੁਹਾਡੀ ਪੋਸਟ ਨੂੰ ਪੱਕੇ ਤੌਰ 'ਤੇ ਮਿਟਾ ਦੇਵੇਗਾ।"
     }
 }

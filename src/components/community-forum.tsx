@@ -39,6 +39,7 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog"
 import { Input } from './ui/input';
+import { useLanguage } from '@/context/language-context';
 
 
 export function CommunityForum() {
@@ -49,6 +50,7 @@ export function CommunityForum() {
   const [editingContent, setEditingContent] = React.useState('');
   const [showDeleteConfirm, setShowDeleteConfirm] = React.useState(false);
   const [postToDelete, setPostToDelete] = React.useState<string | null>(null);
+  const { translations } = useLanguage();
 
   const postsQuery = useMemoFirebase(() => {
     if (!firestore) return null;
@@ -106,25 +108,25 @@ export function CommunityForum() {
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <Users className="w-6 h-6 text-primary" />
-          <span>Community Forum</span>
+          <span>{translations.communityForum.title}</span>
         </CardTitle>
         <CardDescription>
-          Connect with fellow farmers. Ask questions and share knowledge.
+          {translations.communityForum.description}
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
         {user && (
           <div className="space-y-2">
             <Textarea
-              placeholder="Share your thoughts or ask a question..."
+              placeholder={translations.communityForum.postPlaceholder}
               value={newPostContent}
               onChange={(e) => setNewPostContent(e.target.value)}
             />
-            <Button size="sm" className="float-right" onClick={handlePost}>Post</Button>
+            <Button size="sm" className="float-right" onClick={handlePost}>{translations.communityForum.postButton}</Button>
           </div>
         )}
         <div className="space-y-4 pt-4">
-          {postsLoading && <p>Loading posts...</p>}
+          {postsLoading && <p>{translations.communityForum.loadingPosts}</p>}
           {posts?.map((post) => {
             const authorAvatar = PlaceHolderImages.find((img) => img.id === post.authorAvatarId);
             const postDate = post.dateCreated?.toDate().toLocaleTimeString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
@@ -141,7 +143,7 @@ export function CommunityForum() {
                   <div className="flex justify-between items-start">
                     <div>
                       <p className="font-semibold">{authorName}</p>
-                      <p className="text-xs text-muted-foreground">{postDate || 'Just now'}</p>
+                      <p className="text-xs text-muted-foreground">{postDate || translations.communityForum.justNow}</p>
                     </div>
                     {isOwner && (
                       <DropdownMenu>
@@ -151,8 +153,8 @@ export function CommunityForum() {
                           </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
-                          <DropdownMenuItem onClick={() => handleEditPost(post)}><Edit className="mr-2 h-4 w-4" /> Edit</DropdownMenuItem>
-                          <DropdownMenuItem onClick={() => confirmDeletePost(post.id)} className="text-destructive focus:text-destructive focus:bg-destructive/10"><Trash2 className="mr-2 h-4 w-4" /> Delete</DropdownMenuItem>
+                          <DropdownMenuItem onClick={() => handleEditPost(post)}><Edit className="mr-2 h-4 w-4" /> {translations.communityForum.edit}</DropdownMenuItem>
+                          <DropdownMenuItem onClick={() => confirmDeletePost(post.id)} className="text-destructive focus:text-destructive focus:bg-destructive/10"><Trash2 className="mr-2 h-4 w-4" /> {translations.communityForum.delete}</DropdownMenuItem>
                         </DropdownMenuContent>
                       </DropdownMenu>
                     )}
@@ -161,8 +163,8 @@ export function CommunityForum() {
                      <div className="mt-2 space-y-2">
                         <Input value={editingContent} onChange={(e) => setEditingContent(e.target.value)} />
                         <div className="flex gap-2 justify-end">
-                            <Button variant="ghost" size="sm" onClick={handleCancelEdit}>Cancel</Button>
-                            <Button size="sm" onClick={handleUpdatePost}>Update</Button>
+                            <Button variant="ghost" size="sm" onClick={handleCancelEdit}>{translations.communityForum.cancel}</Button>
+                            <Button size="sm" onClick={handleUpdatePost}>{translations.communityForum.update}</Button>
                         </div>
                      </div>
                   ) : (
@@ -177,14 +179,14 @@ export function CommunityForum() {
        <AlertDialog open={showDeleteConfirm} onOpenChange={setShowDeleteConfirm}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+            <AlertDialogTitle>{translations.communityForum.deleteConfirmTitle}</AlertDialogTitle>
             <AlertDialogDescription>
-              This action cannot be undone. This will permanently delete your post.
+              {translations.communityForum.deleteConfirmDescription}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel onClick={() => setShowDeleteConfirm(false)}>Cancel</AlertDialogCancel>
-            <AlertDialogAction onClick={handleDeletePost} className="bg-destructive hover:bg-destructive/90">Delete</AlertDialogAction>
+            <AlertDialogCancel onClick={() => setShowDeleteConfirm(false)}>{translations.communityForum.cancel}</AlertDialogCancel>
+            <AlertDialogAction onClick={handleDeletePost} className="bg-destructive hover:bg-destructive/90">{translations.communityForum.delete}</AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>

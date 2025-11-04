@@ -5,5 +5,113 @@
         "profile": "Profile",
         "settings": "Settings",
         "logout": "Logout"
+    },
+    "landingPage": {
+        "login": "Login",
+        "goToDashboard": "Go to Dashboard",
+        "heroTitle": "Empowering Farmers with Technology",
+        "heroSubtitle": "Your smart farming companion for market prices, weather forecasts, and community support.",
+        "getStarted": "Get Started",
+        "keyFeatures": "Key Features",
+        "featuresTitle": "Everything a Modern Farmer Needs",
+        "featuresSubtitle": "From real-time data to a supportive community, we provide the tools to help you thrive.",
+        "marketInsightsTitle": "Market Insights",
+        "marketInsightsDescription": "Get up-to-date market prices for your produce to make informed selling decisions.",
+        "aiAdviceTitle": "AI-Powered Advice",
+        "aiAdviceDescription": "Receive smart recommendations based on weather patterns and market trends to optimize your yield.",
+        "communityForumTitle": "Community Forum",
+        "communityForumDescription": "Connect with other farmers, share knowledge, and ask questions in our community forum.",
+        "footerRights": "© Kissan Sathi. All rights reserved.",
+        "termsOfService": "Terms of Service",
+        "privacy": "Privacy"
+    },
+    "loginPage": {
+        "loading": "Loading...",
+        "farmer": "Farmer",
+        "admin": "Admin",
+        "login": "Login",
+        "signUp": "Sign Up",
+        "farmerLoginTitle": "Farmer Login",
+        "farmerLoginDescription": "Enter your credentials to access your account.",
+        "emailLabel": "Email",
+        "passwordLabel": "Password",
+        "anonymousLogin": "Login Anonymously",
+        "farmerSignUpTitle": "Farmer Sign Up",
+        "farmerSignUpDescription": "Create a new account to get started.",
+        "adminLoginTitle": "Admin Login",
+        "adminLoginDescription": "Enter your admin credentials to access the admin panel.",
+        "adminEmailLabel": "Admin Email",
+        "adminPasswordLabel": "Admin Password",
+        "loginAsAdmin": "Login as Admin"
+    },
+    "dashboard": {
+        "dashboard": "Dashboard",
+        "market": "Market",
+        "weather": "Weather",
+        "community": "Community"
+    },
+    "farmerPage": {
+        "welcome": "Welcome back",
+        "welcomeDescription": "Here's your farm's overview for today. Get smart advice to optimize your yield.",
+        "companionText": "Your smart farming companion."
+    },
+    "adminPage": {
+        "welcome": "Welcome back",
+        "welcomeDescription": "Here's the platform overview. Manage data and users.",
+        "adminDashboard": "Admin Dashboard"
+    },
+    "weather": {
+        "loadingTitle": "Loading Weather...",
+        "loadingText": "Loading...",
+        "unavailableTitle": "Weather Unavailable",
+        "unavailableText": "Could not load weather data.",
+        "forecastTitle": "5-Day Forecast",
+        "forecastDays": {
+            "mon": "Mon",
+            "tue": "Tue",
+            "wed": "Wed",
+            "thu": "Thu",
+            "fri": "Fri"
+        }
+    },
+    "marketPrices": {
+        "title": "Market Prices",
+        "description": "Real-time vegetable and fruit prices.",
+        "searchPlaceholder": "Search produce...",
+        "produce": "Produce",
+        "price": "Price (per kg)",
+        "trend": "Trend",
+        "sevenDayTrend": "7-Day Trend",
+        "loading": "Loading...",
+        "trends": {
+            "up": "up",
+            "down": "down",
+            "stable": "stable"
+        }
+    },
+    "smartAdvice": {
+        "title": "Smart Farmer Advice",
+        "description": "Get AI-powered recommendations for your farm.",
+        "generating": "Generating advice...",
+        "plant": "Plant",
+        "plantingTime": "Planting Time",
+        "reason": "Reason",
+        "noAdvice": "No specific advice at this time based on current conditions.",
+        "getAdviceButton": "Get Smart Advice",
+        "generatingButton": "Generating..."
+    },
+    "communityForum": {
+        "title": "Community Forum",
+        "description": "Connect with fellow farmers. Ask questions and share knowledge.",
+        "postPlaceholder": "Share your thoughts or ask a question...",
+        "postButton": "Post",
+        "loadingPosts": "Loading posts...",
+        "justNow": "Just now",
+        "edit": "Edit",
+        "delete": "Delete",
+        "cancel": "Cancel",
+        "update": "Update",
+        "deleteConfirmTitle": "Are you sure?",
+        "deleteConfirmDescription": "This action cannot be undone. This will permanently delete your post."
     }
 }
