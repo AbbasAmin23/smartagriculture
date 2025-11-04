@@ -75,6 +75,16 @@ export function AdminMarketManagement() {
 
   const { data: marketPrices, isLoading } = useCollection<MarketItem>(marketDataQuery);
 
+  const logPriceHistory = (name: string, price: number) => {
+    if (!firestore) return;
+    const historyCollection = collection(firestore, 'priceHistory');
+    addDocumentNonBlocking(historyCollection, {
+      vegetableName: name,
+      pricePerKg: price,
+      date: serverTimestamp(),
+    });
+  };
+
   const handleEditClick = (item: MarketItem) => {
     setCurrentItem(item);
     setNewItemName(item.vegetableName);
@@ -84,12 +94,14 @@ export function AdminMarketManagement() {
 
   const handleUpdate = () => {
     if (!firestore || !currentItem || !newItemName.trim() || !newItemPrice.trim()) return;
+    const price = parseFloat(newItemPrice);
     const itemDoc = doc(firestore, 'marketData', currentItem.id);
     updateDocumentNonBlocking(itemDoc, {
       vegetableName: newItemName,
-      pricePerKg: parseFloat(newItemPrice),
-      date: serverTimestamp(), // Update the date on edit
+      pricePerKg: price,
+      date: serverTimestamp(),
     });
+    logPriceHistory(newItemName, price);
     setIsEditDialogOpen(false);
     setCurrentItem(null);
     setNewItemName('');
@@ -98,14 +110,15 @@ export function AdminMarketManagement() {
 
   const handleAdd = () => {
     if (!firestore || !newItemName.trim() || !newItemPrice.trim()) return;
+    const price = parseFloat(newItemPrice);
     const marketCollection = collection(firestore, 'marketData');
     addDocumentNonBlocking(marketCollection, {
       vegetableName: newItemName,
-      pricePerKg: parseFloat(newItemPrice),
+      pricePerKg: price,
       date: serverTimestamp(),
-      // In a real app, you would associate this with the admin user
       adminId: 'admin_placeholder_id'
     });
+    logPriceHistory(newItemName, price);
     setIsAddDialogOpen(false);
     setNewItemName('');
     setNewItemPrice('');
@@ -242,3 +255,5 @@ export function AdminMarketManagement() {
     </Card>
   );
 }
+
+    

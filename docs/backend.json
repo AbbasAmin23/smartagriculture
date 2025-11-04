@@ -40,6 +40,36 @@
         "adminId"
       ]
     },
+    "PriceHistory": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "PriceHistory",
+      "type": "object",
+      "description": "Stores a historical record of a vegetable's price on a specific date.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the price history entry."
+        },
+        "vegetableName": {
+          "type": "string",
+          "description": "Name of the vegetable or fruit."
+        },
+        "pricePerKg": {
+          "type": "number",
+          "description": "Price per kilogram of the vegetable/fruit in INR."
+        },
+        "date": {
+          "type": "string",
+          "description": "Date when the price was recorded.",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "vegetableName",
+        "pricePerKg",
+        "date"
+      ]
+    },
     "WeatherUpdate": {
       "$schema": "http://json-schema.org/draft-07/schema#",
       "title": "WeatherUpdate",
@@ -266,6 +296,22 @@
         }
       },
       {
+        "path": "/priceHistory/{priceHistoryId}",
+        "definition": {
+          "entityName": "PriceHistory",
+          "schema": {
+            "$ref": "#/backend/entities/PriceHistory"
+          },
+          "description": "Stores historical price data for vegetables for trend analysis.",
+          "params": [
+            {
+              "name": "priceHistoryId",
+              "description": "The unique identifier of the price history entry."
+            }
+          ]
+        }
+      },
+      {
         "path": "/weatherUpdates/{weatherUpdateId}",
         "definition": {
           "entityName": "WeatherUpdate",
@@ -316,3 +362,5 @@
     ]
   }
 }
+
+    

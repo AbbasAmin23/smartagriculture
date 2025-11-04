@@ -12,6 +12,10 @@ service cloud.firestore {
       return request.auth.uid == userId;
     }
 
+    function isAdmin() {
+      return isSignedIn() && request.auth.token.email.matches('.*admin.*');
+    }
+
     // Admins collection
     match /admins/{adminId} {
       allow read, write: if isOwner(adminId);
@@ -25,8 +29,13 @@ service cloud.firestore {
     // MarketData collection
     match /marketData/{marketDataId} {
       allow read: if true;
-      // Allow write if the user is signed in and their email contains 'admin'
-      allow write: if isSignedIn() && request.auth.token.email.matches('.*admin.*');
+      allow write: if isAdmin();
+    }
+
+    // PriceHistory collection
+    match /priceHistory/{priceHistoryId} {
+      allow read: if true;
+      allow write: if isAdmin();
     }
     
     // WeatherUpdates collection
@@ -53,3 +62,5 @@ service cloud.firestore {
     }
   }
 }
+
+    

@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Card,
   CardContent,
@@ -26,7 +26,7 @@ import {
 import { Area, AreaChart } from 'recharts';
 import { Input } from './ui/input';
 import { useCollection, useFirestore, useMemoFirebase } from '@/firebase';
-import { collection, query } from 'firebase/firestore';
+import { collection, query, where, limit, orderBy, Timestamp } from 'firebase/firestore';
 import { useLanguage } from '@/context/language-context';
 
 const trendIcons = {
@@ -42,7 +42,78 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-const generateRandomPrices = () => Array.from({ length: 7 }, () => Math.floor(Math.random() * 50) + 20);
+type PriceHistory = {
+  pricePerKg: number;
+  date: Timestamp;
+}
+
+function PriceTrendChart({ vegetableName }: { vegetableName: string }) {
+  const firestore = useFirestore();
+  const [priceHistory, setPriceHistory] = useState<{ day: string, price: number }[]>([]);
+
+  const priceHistoryQuery = useMemoFirebase(() => {
+    if (!firestore) return null;
+    const sevenDaysAgo = new Date();
+    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+    return query(
+      collection(firestore, 'priceHistory'),
+      where('vegetableName', '==', vegetableName),
+      where('date', '>=', sevenDaysAgo),
+      orderBy('date', 'asc'),
+      limit(7)
+    );
+  }, [firestore, vegetableName]);
+
+  const { data: historyData } = useCollection<PriceHistory>(priceHistoryQuery);
+
+  useEffect(() => {
+    if (historyData) {
+      const formattedData = historyData.map(item => ({
+        day: item.date.toDate().toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
+        price: item.pricePerKg,
+      }));
+      setPriceHistory(formattedData);
+    }
+  }, [historyData]);
+  
+  if (priceHistory.length === 0) {
+    return <div className="h-10 w-full flex items-center justify-center text-xs text-muted-foreground">No recent data</div>;
+  }
+
+  return (
+    <ChartContainer config={chartConfig} className="h-10 w-full">
+      <AreaChart
+        accessibilityLayer
+        data={priceHistory}
+        margin={{
+          left: 0,
+          right: 0,
+          top: 2,
+          bottom: 2,
+        }}
+      >
+        <defs>
+          <linearGradient id={`fill-${vegetableName.replace(/\s/g, '')}`} x1="0" y1="0" x2="0" y2="1">
+            <stop offset="5%" stopColor="var(--color-price)" stopOpacity={0.8} />
+            <stop offset="95%" stopColor="var(--color-price)" stopOpacity={0.1} />
+          </linearGradient>
+        </defs>
+        <Area
+          dataKey="price"
+          type="natural"
+          fill={`url(#fill-${vegetableName.replace(/\s/g, '')})`}
+          stroke="var(--color-price)"
+          stackId="a"
+        />
+        <ChartTooltip
+          cursor={false}
+          content={<ChartTooltipContent hideLabel indicator="line" />}
+        />
+      </AreaChart>
+    </ChartContainer>
+  );
+}
+
 
 export function MarketPrices() {
   const [search, setSearch] = useState('');
@@ -93,9 +164,8 @@ export function MarketPrices() {
           <TableBody>
             {isLoading && <TableRow><TableCell colSpan={4}>{translations.marketPrices.loading}</TableCell></TableRow>}
             {filteredPrices.map((item) => {
-              // Mocking trend and 7-day prices for now
+              // Mocking trend for now, as it requires comparing with previous day's data
               const trend = ['up', 'down', 'stable'][Math.floor(Math.random() * 3)]; 
-              const prices = generateRandomPrices();
 
               return (
               <TableRow key={item.id}>
@@ -113,36 +183,7 @@ export function MarketPrices() {
                   </Badge>
                 </TableCell>
                 <TableCell className="text-right">
-                  <ChartContainer config={chartConfig} className="h-10 w-full">
-                    <AreaChart
-                      accessibilityLayer
-                      data={prices.map((price, index) => ({ day: index, price }))}
-                      margin={{
-                        left: 0,
-                        right: 0,
-                        top: 2,
-                        bottom: 2,
-                      }}
-                    >
-                      <defs>
-                        <linearGradient id={`fill-${item.id}`} x1="0" y1="0" x2="0" y2="1">
-                           <stop offset="5%" stopColor="var(--color-price)" stopOpacity={0.8} />
-                           <stop offset="95%" stopColor="var(--color-price)" stopOpacity={0.1} />
-                        </linearGradient>
-                      </defs>
-                      <Area
-                        dataKey="price"
-                        type="natural"
-                        fill={`url(#fill-${item.id})`}
-                        stroke="var(--color-price)"
-                        stackId="a"
-                      />
-                      <ChartTooltip
-                        cursor={false}
-                        content={<ChartTooltipContent hideLabel indicator="line" />}
-                      />
-                    </AreaChart>
-                  </ChartContainer>
+                  <PriceTrendChart vegetableName={item.vegetableName} />
                 </TableCell>
               </TableRow>
             )})}
@@ -152,3 +193,5 @@ export function MarketPrices() {
     </Card>
   );
 }
+
+    
